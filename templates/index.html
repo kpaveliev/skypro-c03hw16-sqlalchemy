@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Main</title>
+    <link rel="stylesheet" type= "text/css" href="{{ url_for('.static',filename='style.css') }}">
+</head>
+<body>
+<main>
+    <h2>Create/drop tables</h2>
+        <p>
+           Tables exist by default,
+           make sure to drop them first if you want to create new ones
+        </p>
+        <form action="/create_all">
+            <input type="submit" value="Create" class="button">
+        </form>
+        <br>
+        <form action="/drop_all">
+            <input type="submit" value="Delete" class="button">
+        </form>
+
+        <p>
+           Some API views
+        </p>
+        <p>
+            <a href="/users">Users</a>
+            <a href="/orders">Orders</a>
+            <a href="/offers">Offers</a>
+        </p>
+    <hr>
+    <h2>Available API methods</h2>
+        <p>
+            /users - GET, POST <br>
+            /users/id - GET, PUT, DELETE <br>
+            /orders - GET, POST <br>
+            /orders/id - GET, PUT, DELETE <br>
+            /offers - GET, POST <br>
+            /offers/id - GET, PUT, DELETE <br>
+        </p>
+        <p>
+            <mark>When adding orders using "/orders POST method"
+                make sure dates are submitted as MM/DD/YYYY</mark>
+        </p>
+    </div>
+
+</main>
+</body>
+</html>
