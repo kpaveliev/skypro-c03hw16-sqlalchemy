@@ -1,0 +1,10 @@
+# App configuration
+DEBUG = True
+JSON_AS_ASCII = False
+# Files paths
+USERS = 'data/users.json'
+ORDERS = 'data/orders.json'
+OFFERS = 'data/offers.json'
+# Database settings
+SQLALCHEMY_DATABASE_URI = 'sqlite:///data/database.db'
+SQLALCHEMY_TRACK_MODIFICATIONS = False
