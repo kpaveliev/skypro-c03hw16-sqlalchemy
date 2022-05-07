@@ -48,7 +48,7 @@ def users_all():
         with db.session.begin():
             user = User(**request.json)
             db.session.add(user)
-        return jsonify(user.instance_to_dict())
+            return jsonify(user.instance_to_dict())
     else:
         users = User.query.all()
         users_json = [user.instance_to_dict() for user in users]
@@ -68,7 +68,7 @@ def user_by_id(idx):
         with db.session.begin():
             user = User.query.filter(User.id == idx).one()
             user.update(data)
-        return jsonify(user.instance_to_dict())
+            return jsonify(user.instance_to_dict())
 
     elif request.method == 'DELETE':
         with db.session.begin():
@@ -92,7 +92,7 @@ def orders_all():
             data_changed = Order.convert_date(data)
             order = Order(**data_changed)
             db.session.add(order)
-        return jsonify(order.instance_to_dict())
+            return jsonify(order.instance_to_dict())
     else:
         orders = Order.query.all()
         orders_json = [order.instance_to_dict() for order in orders]
@@ -113,7 +113,7 @@ def order_by_id(idx):
         with db.session.begin():
             order = Order.query.filter(Order.id == idx).one()
             order.update(data_changed)
-        return jsonify(order.instance_to_dict())
+            return jsonify(order.instance_to_dict())
 
     elif request.method == 'DELETE':
         with db.session.begin():
@@ -140,7 +140,7 @@ def offers_all():
         with db.session.begin():
             offer = Offer(**request.json)
             db.session.add(offer)
-        return jsonify(offer.instance_to_dict())
+            return jsonify(offer.instance_to_dict())
     else:
         offers = Offer.query.all()
         offers_json = [offer.instance_to_dict() for offer in offers]
@@ -160,7 +160,7 @@ def offer_by_id(idx):
         with db.session.begin():
             offer = Offer.query.filter(Offer.id == idx).one()
             offer.update(data)
-        return jsonify(offer.instance_to_dict())
+            return jsonify(offer.instance_to_dict())
 
     elif request.method == 'DELETE':
         with db.session.begin():

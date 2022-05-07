@@ -48,12 +48,12 @@ class Loader:
         for key, value in updated_data.items():
             setattr(self, key, value)
 
+    def instance_to_dict(self) -> dict:
+        """Serialize the object as a dictionary"""
+        return {key: value for key, value in vars(self).items() if key != '_sa_instance_state'}
+
     @classmethod
     def make_dict(cls, list_):
-        # dict = {}
-        # for attr in dir(self):
-        #     dict[attr] = getattr(self, attr)
-        # return dict
         return {
             "order_id": list_[0],
             "order_description": list_[1],
@@ -73,18 +73,6 @@ class User(db.Model, Loader):
     role = db.Column(db.Text)
     phone = db.Column(db.Text)
 
-    def instance_to_dict(self) -> dict:
-        """Serialize object as a dictionary"""
-        return {
-            "id": self.id,
-            "first_name": self.first_name,
-            "last_name": self.last_name,
-            "age": self.age,
-            "email": self.email,
-            "role": self.role,
-            "phone": self.phone
-        }
-
 
 class Order(db.Model, Loader):
     """SQLAlchemy model for orders"""
@@ -102,20 +90,6 @@ class Order(db.Model, Loader):
     executor = db.relationship('User', foreign_keys=[executor_id])
     offers = db.relationship('Offer')
 
-    def instance_to_dict(self) -> dict:
-        """Serialize object as a dictionary"""
-        return {
-            "id": self.id,
-            "name": self.name,
-            "description": self.description,
-            "start_date": self.start_date,
-            "end_date": self.end_date,
-            "address": self.address,
-            "price": self.price,
-            "customer_id": self.customer_id,
-            "executor_id": self.executor_id
-        }
-
 
 class Offer(db.Model, Loader):
     """SQLAlchemy model for offers"""
@@ -125,11 +99,3 @@ class Offer(db.Model, Loader):
     executor_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     order = db.relationship('Order')
     executor = db.relationship('User')
-
-    def instance_to_dict(self) -> dict:
-        """Serialize object as a dictionary"""
-        return {
-            "id": self.id,
-            "order_id": self.order_id,
-            "executor_id": self.executor_id
-        }
