@@ -48,6 +48,19 @@ class Loader:
         for key, value in updated_data.items():
             setattr(self, key, value)
 
+    @classmethod
+    def make_dict(cls, list_):
+        # dict = {}
+        # for attr in dir(self):
+        #     dict[attr] = getattr(self, attr)
+        # return dict
+        return {
+            "order_id": list_[0],
+            "order_description": list_[1],
+            "executor_name": list_[2],
+            "customer_name": list_[3]
+        }
+
 
 class User(db.Model, Loader):
     """SQLAlchemy model for users"""

@@ -121,8 +121,13 @@ def order_by_id(idx):
         return redirect('/orders', 302)
 
     else:
-        order = Order.query.filter(Order.id == idx).one()
-        return jsonify(order.instance_to_dict())
+        Customer = db.aliased(User)
+        Executor = db.aliased(User)
+        query_result = db.session.query(Order.id, Order.description, Executor.last_name, Customer.last_name
+                                 ).join(Executor, Order.executor_id==Executor.id
+                                        ).join(Customer, Order.customer_id==Customer.id
+                                               ).filter(Order.id == idx).one()
+        return jsonify(Order.make_dict(list_=query_result))
 
 
 @app.route("/offers", methods=['GET', 'POST'])
