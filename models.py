@@ -1,6 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
 import json
-import datetime
+from datetime import datetime
 
 db = SQLAlchemy()
 
@@ -11,37 +11,25 @@ class Loader:
     @classmethod
     def convert_date(cls, data: dict) -> dict:
         """ Convert date values of a dictionary into datetime.date format
-
         :param data: Source dictionary with some values in DD/MM/YYYY format
         :return: Dictionary with date fields converted to datetime.date
         """
-        data_changed = {}
-        for key, data in data.items():
-            if 'date' in key:
-                month, day, year = data.split('/')
-                date_new = datetime.date(int(year), int(month), int(day))
-                data_changed[key] = date_new
-            else:
-                data_changed[key] = data
-        return data_changed
+        return {key: (datetime.strptime(value, '%m/%d/%Y')
+                      if 'date' in key else value)
+                for key, value in data.items()}
+
 
     @classmethod
     def create_instances(cls, path: str) -> list:
         """Create a list of class instances from a json file
-
         :param path: Path to a json file
         :return: Class instances list
         """
         # Load data from a json file
         with open(path, 'r', encoding='utf-8') as file:
             data = json.load(file)
-        # Create and append class objects list
-        objects_list = []
-        for item in data:
-            # Change date format to datetime.date
-            item_changed = cls.convert_date(item)
-            objects_list.append(cls(**item_changed))
-        return objects_list
+
+        return [cls(**cls.convert_date(el)) for el in data ]
 
     def update(self, updated_data: dict) -> None:
         """Update class object with data from a dictionary"""
