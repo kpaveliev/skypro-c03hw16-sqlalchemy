@@ -123,11 +123,15 @@ def order_by_id(idx):
     else:
         Customer = db.aliased(User)
         Executor = db.aliased(User)
-        query_result = db.session.query(Order.id, Order.description, Executor.last_name, Customer.last_name
-                                 ).join(Executor, Order.executor_id==Executor.id
-                                        ).join(Customer, Order.customer_id==Customer.id
-                                               ).filter(Order.id == idx).one()
-        return jsonify(Order.make_dict(list_=query_result))
+        query_result = db.session\
+            .query(Order.id,
+                   Order.description,
+                   Executor.last_name.label('executor_name'),
+                   Customer.last_name.label('customer_name'))\
+            .join(Executor, Order.executor_id == Executor.id)\
+            .join(Customer, Order.customer_id == Customer.id)\
+            .filter(Order.id == idx).one()
+        return jsonify(query_result._asdict())
 
 
 @app.route("/offers", methods=['GET', 'POST'])

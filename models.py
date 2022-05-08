@@ -52,15 +52,6 @@ class Loader:
         """Serialize the object as a dictionary"""
         return {key: value for key, value in vars(self).items() if key != '_sa_instance_state'}
 
-    @classmethod
-    def make_dict(cls, list_):
-        return {
-            "order_id": list_[0],
-            "order_description": list_[1],
-            "executor_name": list_[2],
-            "customer_name": list_[3]
-        }
-
 
 class User(db.Model, Loader):
     """SQLAlchemy model for users"""
